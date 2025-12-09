@@ -1,0 +1,24 @@
+{
+  "name": "recognition-bot",
+  "version": "1.0.0",
+  "description": "MVP чат-бот признаний (Telegram) с логикой SBI, лимитами и антифармингом.",
+  "main": "src/bot.js",
+  "scripts": {
+    "start": "node src/bot.js"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "recognition",
+    "gratitude",
+    "sbi"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-telegram-bot-api": "^0.64.0"
+  }
+}
+
+
