@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ru" class="bg-gradient-to-br from-indigo-50 via-white to-sky-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Прототип бота признаний (web)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+    .orb-indigo {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle at 30% 30%, rgba(129, 140, 248, 0.35), transparent 55%),
+                  radial-gradient(circle at 70% 70%, rgba(56, 189, 248, 0.35), transparent 60%);
+    }
+    .orb-pink {
+      width: 160px; height: 160px;
+      background: radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.35), transparent 55%),
+                  radial-gradient(circle at 70% 70%, rgba(245, 158, 11, 0.3), transparent 60%);
+    }
+  </style>
+</head>
+<body class="text-slate-900">
+  <div class="relative mx-auto max-w-6xl px-5 pb-14">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(99,102,241,0.18),transparent_30%),radial-gradient(circle_at_85%_10%,rgba(14,165,233,0.12),transparent_24%),radial-gradient(circle_at_70%_85%,rgba(236,72,153,0.1),transparent_26%)]"></div>
+    <header class="relative z-10 flex flex-col gap-5 py-8 md:flex-row md:items-start md:justify-between">
+      <div class="space-y-3">
+        <div class="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-indigo-700 shadow-md shadow-indigo-200">
+          MVP · Признания · SBI · Антифарминг
+        </div>
+        <h1 class="text-3xl font-bold flex items-center gap-2 text-slate-900 drop-shadow-sm">🤖 Прототип признаний</h1>
+        <p class="text-slate-600 max-w-2xl">Создай тёплую, конкретную благодарность: ситуация, действие, влияние — с заботой и эмпатией. Отмечай невидимых героев, соблюдай лимиты и смотри прогресс.</p>
+      </div>
+      <div class="relative flex flex-col gap-3 w-full md:w-64 rounded-2xl bg-white p-5 ring-1 ring-slate-100 shadow-xl">
+        <div class="orb orb-indigo -top-6 -right-10"></div>
+        <label for="currentUser" class="text-sm font-semibold text-slate-700">Текущий пользователь</label>
+        <select id="currentUser" class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"></select>
+        <div id="limitInfo" class="inline-flex items-center gap-2 rounded-full bg-indigo-100 px-3 py-1.5 text-sm font-semibold text-indigo-900"></div>
+      </div>
+    </header>
+
+    <main class="relative z-10 flex flex-col gap-6">
+      <!-- Дашборд сверху -->
+      <section class="grid gap-5 md:grid-cols-2">
+        <div class="relative rounded-2xl border border-slate-100 bg-white p-6 shadow-xl space-y-3">
+          <h2 class="text-lg font-semibold text-slate-900">Герой недели</h2>
+          <p class="text-sm text-slate-600">Самые разнообразные и качественные благодарности за неделю.</p>
+          <div id="weeklyHero" class="space-y-3"></div>
+        </div>
+        <div class="relative rounded-2xl border border-slate-100 bg-white p-6 shadow-xl space-y-3">
+          <h2 class="text-lg font-semibold text-slate-900">Мои достижения</h2>
+          <p class="text-sm text-slate-600">Баллы, уникальные отделы, бейджи и прогресс к награде.</p>
+          <div id="metrics" class="space-y-3"></div>
+        </div>
+      </section>
+
+      <section class="rounded-2xl border border-slate-100 bg-white p-7 shadow-xl space-y-5">
+        <div class="orb orb-indigo -top-10 -left-6"></div>
+        <div class="orb orb-pink -bottom-12 right-4"></div>
+        <div class="flex items-start justify-between gap-3">
+          <div class="space-y-1">
+            <h2 class="text-xl font-semibold text-slate-900">1. Отправить благодарность</h2>
+            <p class="text-sm text-slate-600">Сформируй тёплую, конкретную фразу по SBI: ситуация → действие → влияние. Добавь эмоцию и ценность.</p>
+          </div>
+          <div class="hidden md:flex items-center gap-2 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-900 shadow-sm">
+            ⭐ Повышаем качество благодарностей
+          </div>
+        </div>
+        <div class="rounded-xl border border-amber-200 bg-amber-50 text-amber-900 px-4 py-3 text-sm font-semibold shadow-sm">
+          Совет: выбери коллегу из другого отдела или «невидимого героя». Опиши конкретику по SBI, чтобы человек почувствовал заботу, влияние и важность его вклада. Добавь тёплые детали и эмоцию.
+        </div>
+        <form id="gratitudeForm" class="flex flex-col gap-5">
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class="flex flex-col gap-2 text-sm font-semibold text-slate-800">
+              Получатель
+              <select id="receiver" class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"></select>
+            </label>
+            <label class="flex flex-col gap-2 text-sm font-semibold text-slate-800">
+              Категория
+              <select id="category" class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"></select>
+            </label>
+          </div>
+          <div class="grid gap-4 md:grid-cols-3">
+            <label class="flex flex-col gap-2 text-sm font-semibold text-slate-800">S — Ситуация
+              <textarea id="situation" rows="2" placeholder="Что произошло?" class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200 placeholder:text-slate-400"></textarea>
+            </label>
+            <label class="flex flex-col gap-2 text-sm font-semibold text-slate-800">B — Поведение
+              <textarea id="behavior" rows="2" placeholder="Что сделал человек?" class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200 placeholder:text-slate-400"></textarea>
+            </label>
+            <label class="flex flex-col gap-2 text-sm font-semibold text-slate-800">I — Влияние
+              <textarea id="impact" rows="2" placeholder="Какой был эффект?" class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200 placeholder:text-slate-400"></textarea>
+            </label>
+          </div>
+          <fieldset class="flex flex-col gap-3 rounded-2xl border border-slate-200/80 bg-white/70 p-3 shadow-sm">
+            <legend class="text-sm font-semibold text-slate-800 px-2">Тип благодарности</legend>
+            <div class="flex flex-wrap items-center gap-4">
+              <label class="flex items-center gap-2 text-sm font-medium text-slate-800">
+                <input type="radio" name="gtype" value="normal" checked class="h-4 w-4 text-indigo-500 focus:ring-indigo-400">
+                ✨ Обычная (1 балл)
+              </label>
+              <label class="flex items-center gap-2 text-sm font-medium text-slate-800">
+                <input type="radio" name="gtype" value="big" class="h-4 w-4 text-indigo-500 focus:ring-indigo-400">
+                🔥 Большой вклад (3 балла)
+              </label>
+            </div>
+            <input id="extra" type="text" placeholder="Что делает вклад «большим»? (для 3 баллов)" disabled class="flex-1 min-w-[220px] rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200 placeholder:text-slate-400 disabled:bg-slate-100 disabled:text-slate-400">
+          </fieldset>
+          <div class="flex flex-col gap-2">
+            <div class="flex flex-wrap items-center gap-3">
+              <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-sky-400 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-300/40 hover:from-indigo-600 hover:via-fuchsia-500 hover:to-sky-400 focus:outline-none focus:ring-2 focus:ring-indigo-300/70">
+                Отправить
+              </button>
+              <span id="draftPreview" class="text-sm text-slate-600"></span>
+            </div>
+            <div id="validation" class="text-sm font-semibold text-rose-600"></div>
+          </div>
+        </form>
+      </section>
+
+      <section class="rounded-2xl border border-slate-100 bg-white p-7 shadow-xl space-y-3">
+        <div class="flex items-center gap-3">
+          <h2 class="text-lg font-semibold text-slate-900">2. Благодарности недели</h2>
+          <span class="rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 shadow-sm">последние 5</span>
+        </div>
+        <div id="weeklyFeed" class="space-y-3"></div>
+      </section>
+
+      <section class="grid gap-5 md:grid-cols-2">
+        <div class="rounded-2xl border border-slate-100 bg-white p-6 shadow-xl space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-slate-900">3. Невидимые герои</h2>
+              <p class="text-sm text-slate-600">0 благодарностей 14 дней, теневая функция</p>
+            </div>
+          </div>
+          <div id="invisible" class="space-y-3"></div>
+        </div>
+        <div class="rounded-2xl border border-slate-100 bg-white p-6 shadow-xl space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-slate-900">4. Лимит и прогресс</h2>
+              <p class="text-sm text-slate-600">Антифарминг: ≤10 баллов/нед, ≤2 в отдел, ≤2/день одному</p>
+            </div>
+          </div>
+          <div id="limits" class="space-y-3"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="relative z-10 mt-8 text-sm text-slate-600">
+      Фронтовой прототип без бэкенда. Данные в памяти, можно кликать и тестировать логику.
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
